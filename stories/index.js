@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 
 import "index.scss";
 
-import Button from "components/Button";
+import Button from "components/Button.jsx";
 
 storiesOf("Button", module)
   .addParameters({
@@ -15,10 +15,10 @@ storiesOf("Button", module)
   .add("Confirm", () => <Button confirm>Confirm</Button>)
   .add("Danger", () => <Button danger>Cancel</Button>)
   .add("Clickable", () => (
-    <Button onClick={action("button-clicked")}>Clickable</Button>
+    <Button onClick={action("button-clicked1")}>Clickable</Button>
   ))
   .add("Disabled", () => (
-    <Button disabled onClick={action("button-clicked")}>
+    <Button disabled onClick={action("button-clicked2")}>
       Disabled
     </Button>
   ));
