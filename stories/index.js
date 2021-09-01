@@ -32,12 +32,12 @@ storiesOf("Button", module)
 storiesOf("DayListItem", module) 
 .addParameters({
   backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
-}) // Provides the default background color for our component
+})
 .add("Unselected", () => <DayListItem name="Monday" spots={5} />) 
 .add("Selected", () => <DayListItem name="Monday" spots={5} selected />) 
 .add("Full", () => <DayListItem name="Monday" spots={0} />)
 .add("Clickable", () => (
-  <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} /> 
+  <DayListItem name="Tuesday" setDay={() => action("setDay")("Tuesday")} spots={5} /> 
 ));
 
 const days = [
