@@ -2,30 +2,13 @@ import React from "react";
 
 import "components/Application.scss";
 import DayList from "./DayListItems/DayList";
+import Appointment from "./Appointment";
 
-
-const days = [
-  {
-    id: 1,
-    name: "Monday",
-    spots: 2,
-  },
-  {
-    id: 2,
-    name: "Tuesday",
-    spots: 5,
-  },
-  {
-    id: 3,
-    name: "Wednesday",
-    spots: 0,
-  },
-];
 
 export default function Application(props) {
 
   const [day, setDay] = React.useState("Monday");
-  console.log(day)
+  console.log(appointments)
 
   return (
     <main className="layout">
@@ -53,8 +36,75 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
+        {appointments.map(appointment => (<Appointment key = {appointment.id} {...appointment}/>)
+      )}
+        <Appointment id="last" time="5pm" />
       </section>
     </main>
   );
 }
+
+
+
+const appointments = [
+  {
+    id: 1,
+    time: "12pm",
+  },
+  {
+    id: 2,
+    time: "1pm",
+    interview: {
+      student: "Lydia Miller-Jones",
+      interviewer: {
+        id: 1,
+        name: "Sylvia Palmer",
+        avatar: "https://i.imgur.com/LpaY82x.png",
+      }
+    }
+  },
+  {
+    id: 3,
+    time: "2pm",
+  },
+  {
+    id: 4,
+    time: "3pm",
+    interview: {
+      student: "Tony Dove",
+      interviewer: { 
+        id: 3, 
+        name: "Mildred Nazir", 
+        avatar: "https://i.imgur.com/T2WwVfS.png" }
+    }
+  },
+  {
+    id: 5,
+    time: "4pm",
+    interview: {
+      student: "Fernando Alonso",
+      interviewer: { 
+        id: 5, 
+        name: "Sven Jones", 
+        avatar: "https://i.imgur.com/twYrpay.jpg" }
+    }
+  },
+];
+
+const days = [
+  {
+    id: 1,
+    name: "Monday",
+    spots: 2,
+  },
+  {
+    id: 2,
+    name: "Tuesday",
+    spots: 5,
+  },
+  {
+    id: 3,
+    name: "Wednesday",
+    spots: 0,
+  },
+];
