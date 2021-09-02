@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export default function Empty(props) {
+export default function Status(props) {
   const {message} = props;
   
   return (
