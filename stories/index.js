@@ -8,6 +8,13 @@ import DayListItem from "components/DayListItems/DayListItem";
 import DayList from "components/DayListItems/DayList";
 import InterviewerListItem from "components/Interviewers/InterviewerListItem";
 import InterviewerList from "components/Interviewers/InterviewerList";
+import Appointment from "components/Appointment";
+import Empty from "components/Appointment/Empty";
+import Confirm from "components/Appointment/Confrim";
+import Show from "components/Appointment/Show";
+import Header from "components/Appointment/Header";
+import Status from "components/Appointment/Status";
+import Error from "components/Appointment/Error";
 
 import "index.scss";
 
@@ -130,3 +137,33 @@ storiesOf("InterviewerList", module)
     />
   ));
     
+storiesOf("Appointment", module)
+.addParameters({
+  backgrounds: [{ name: "white", value: "#fff", default: true }]
+})
+.add("Appointment", () => <Appointment />)
+.add("Appointment with Time", () => <
+  Appointment
+    time = "12pm" />)
+.add("Header", () => <Header time = "12pm" />)
+.add("Empty", () => <
+  Empty 
+  onAdd={action("onmAdd")} />)
+.add("Show", () => <
+  Show 
+    onEdit= {action("onEditCalledFromAppointment")}
+    onDelete = {action("onDeleteCalledFromAppointment")}
+    student = {"Lydia Miller-Jones"}
+    interviewer = {interviewers[0]} />)
+.add("Confirm", () => <
+  Confirm 
+    onCancel={action("onCancelCalledFromAppointment")}
+    onConfirm = {action("onConfirmCalledFromAppointment")}
+    message = "Delete the appointment" />)
+.add("Status", () => <
+  Status 
+    message = {"Deleting!"} />)
+.add("Error", () => <
+    Error 
+    message={"Could not delete appointment"}
+    onClose={action("onClose")} />)
