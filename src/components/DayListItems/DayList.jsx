@@ -6,7 +6,7 @@ export default function DayList(props) {
     {props.days.map(day => <DayListItem 
       key = {day.id} 
       {...day}
-      setDay = {() => props.setDay(day.id)} 
+      setDay = {() => props.setDay(day.name)} 
       selected={day.name === props.day}/>)}
   </React.Fragment>)
 };
