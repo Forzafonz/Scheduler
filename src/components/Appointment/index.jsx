@@ -9,7 +9,6 @@ import './styles.scss';
 export default function Appointment(props) {
   
   const {id, time, interview} = props;
-  console.log(interview);
   return (
     <Fragment>
       <article className="appointment">
