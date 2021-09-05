@@ -26,7 +26,7 @@ export default function Form(props) {
     reset();
     onCancel();
   }
-  console.log(studentName)
+
   return (
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
@@ -37,10 +37,8 @@ export default function Form(props) {
         type="text"
         placeholder = {(()=>{
           if (studentName) {
-            console.log("No i am here!")
             return studentName
           } else {
-            console.log("I am here")
             return "Enter Student Name"
           }
         })()}
