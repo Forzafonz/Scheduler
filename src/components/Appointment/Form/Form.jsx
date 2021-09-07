@@ -1,6 +1,6 @@
 // The Form component should take the following props:
 // name:String
-// interviewers:Array
+// interviewers:Array of Objects: [{id: 2, name: 'Tori Malcolm', avatar: 'https://i.imgur.com/Nmx0Qxo.png'}, {id: 10, name: 'Samantha Stanic', avatar: 'https://i.imgur.com/okB9WKC.jpg'} ]
 // interviewer:Number
 // onSave:Function
 // onCancel:Function
@@ -27,11 +27,16 @@ export default function Form(props) {
     onCancel();
   }
 
+  const updateName = (event) => {
+    setName(event.target.value)
+  }
+
   return (
     <main className="appointment__card appointment__card--create">
     <section className="appointment__card-left">
     <form autoComplete="off" onSubmit={event => event.preventDefault()}>
       <input
+        onChange={updateName}
         className="appointment__create-input text--semi-bold"
         name="name"
         type="text"
@@ -50,7 +55,7 @@ export default function Form(props) {
   <section className="appointment__card-right">
     <section className="appointment__actions">
       <Button danger onClick = {() => cancel()}>Cancel</Button>
-      <Button confirm onClick = {onSave}>Save</Button>
+      <Button confirm onClick = {() => onSave(studentName, interviewerName)}>Save</Button>
     </section>
   </section>
 </main>
