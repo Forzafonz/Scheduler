@@ -25,14 +25,15 @@ export default function Application(props) {
     .then(
       (result) => {
         const [days, appointments, interviewers] = result;
+        console.log("interviewers:", interviewers.data)
         setState(prevState => ({...prevState, days: days.data, appointments: appointments.data, interviewers: interviewers.data }))
       }
     )
   }, [])
-
+  console.log("dailyInterviewers: ", state.interviewers)
   const dailyAppointments = getAppointmentsForDay({appointments: state.appointments, days: state.days}, state.day)
   const dailyInterviewers = getInterviewersForDay ({interviewers: state.interviewers, days: state.days}, state.day)
-  console.log(dailyInterviewers)
+  
 
   const setDay = (day) => {
     setState(prevState => ({...prevState, day : day}));
@@ -51,8 +52,19 @@ export default function Application(props) {
     setState(prevState => ({...prevState, appointments: appointments}));
     return axios.put(`/api/appointments/${id}`, {interview})
     .then((res) => {
-      
+      return res;
     })
+  }
+  
+  function cancelInterview(id) {
+
+    const updatedAppointment = {...state.appointments[id], interview: null}
+    const newAppointmentsList = {...state.appointments, [id]: updatedAppointment}
+    return axios.delete(`api/appointments/${id}`)
+    .then(() => 
+      setState({...state, 
+                appointments : newAppointmentsList
+              }))
   }
 
   return (
@@ -85,7 +97,9 @@ export default function Application(props) {
         key = {appointment.id} 
         {...appointment} 
         interviewers = {dailyInterviewers} 
-        bookInterview = {bookInterview}/>)
+        bookInterview = {bookInterview}
+        cancelInterview = {cancelInterview}
+        />)
       )}
         <Appointment id="last" time="5pm" />
       </section>
