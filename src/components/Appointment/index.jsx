@@ -8,7 +8,7 @@
 // Function: bookInterview(id, interview) 
 // Function: cancelInterview(id)
 
-import React, {Fragment, useEffect} from 'react';
+import React, {Fragment} from 'react';
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';

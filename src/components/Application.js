@@ -25,12 +25,10 @@ export default function Application(props) {
     .then(
       (result) => {
         const [days, appointments, interviewers] = result;
-        console.log("interviewers:", interviewers.data)
         setState(prevState => ({...prevState, days: days.data, appointments: appointments.data, interviewers: interviewers.data }))
       }
     )
   }, [])
-  console.log("dailyInterviewers: ", state.interviewers)
   const dailyAppointments = getAppointmentsForDay({appointments: state.appointments, days: state.days}, state.day)
   const dailyInterviewers = getInterviewersForDay ({interviewers: state.interviewers, days: state.days}, state.day)
   
@@ -62,9 +60,7 @@ export default function Application(props) {
     const newAppointmentsList = {...state.appointments, [id]: updatedAppointment}
     return axios.delete(`api/appointments/${id}`)
     .then(() => 
-      setState({...state, 
-                appointments : newAppointmentsList
-              }))
+      setState({...state,  appointments : newAppointmentsList}))
   }
 
   return (
