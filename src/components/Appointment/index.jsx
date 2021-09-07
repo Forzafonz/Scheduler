@@ -15,6 +15,7 @@ import Empty from './Empty';
 import Form from './Form/Form';
 import Status from './Status';
 import Confirm from './Confrim';
+import Error from './Error';
 import './styles.scss';
 import useVisualMode from 'hooks/useVisualMode';
 
@@ -25,6 +26,8 @@ const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETE = "DELETE";
 const EDIT = "EDIT";
+const ERROR_SAVE = "ERROR_SAVE";
+const ERROR_DELETE = "ERROR_DELETE"
 
 
 
@@ -43,6 +46,9 @@ export default function Appointment(props) {
     bookInterview(id, interview)
     .then((res) => {
       transition(SHOW)})
+    .catch(() => {
+      transition(ERROR_SAVE, true)
+    })
   }
 
   /**
@@ -55,8 +61,11 @@ export default function Appointment(props) {
     transition(DELETE, true)
     cancelInterview(id)
     .then(() => {
-      transition(EMPTY)}
-    )
+      transition(EMPTY)
+    })
+    .catch(() => {
+      transition(ERROR_DELETE, true)
+    })
   }
 
   return (
@@ -69,6 +78,8 @@ export default function Appointment(props) {
       {mode === DELETE && <Status message = {"Deleting"}/>}
       {mode === SAVING && <Status message = {"Saving"}/>}
       {mode === CREATE && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
+      {mode === ERROR_SAVE && <Error message = {"CANNOT SAVE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
+      {mode === ERROR_DELETE && <Error message = {"CANNOT DELETE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
       {mode === SHOW && 
         <Show 
           student = {interview.student} 
