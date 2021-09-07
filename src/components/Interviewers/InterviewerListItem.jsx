@@ -11,12 +11,12 @@ import classNames from 'classnames';
 
 
 export default function InterviewerListItem(props) {
-  const {id, name, avatar, selected, onChange} = props;
+  const {name, avatar, selected, onChange} = props;
   const itemClass = classNames("interviewers__item", {"interviewers__item--selected" : selected})
   
   return (
     <li className = {itemClass} 
-    onClick = {() => onChange(id)} 
+    onClick = {onChange} 
     {...selected}>
     <img
       className="interviewers__item-image"
