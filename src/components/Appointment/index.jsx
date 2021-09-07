@@ -24,11 +24,12 @@ const CREATE = "CREATE";
 const SAVING = "SAVING";
 const CONFIRM = "CONFIRM";
 const DELETE = "DELETE";
+const EDIT = "EDIT";
 
 
 
 export default function Appointment(props) {
- 
+
   const {id, time, interview, interviewers, bookInterview, cancelInterview } = props;
   const { mode, transition, back,  } = useVisualMode(interview ? SHOW : EMPTY)
 
@@ -64,10 +65,18 @@ export default function Appointment(props) {
       <Header time = {time} />
       {mode === CONFIRM && <Confirm onConfirm = {() => cancel()} onCancel = {() => back()} message = {"Please confirm that you want to delete your appointment"}/>}
       {mode === EMPTY && <Empty message = {"No Booked Appointments"} key = {id} onAdd = {() => transition(CREATE)}/>}
+      {mode === EDIT && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
       {mode === DELETE && <Status message = {"Deleting"}/>}
       {mode === SAVING && <Status message = {"Saving"}/>}
       {mode === CREATE && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
-      {mode === SHOW && <Show student = {interview.student} interviewer = {interview.interviewer} key = {id} onCancel = {() => transition(CONFIRM)}/>}
+      {mode === SHOW && 
+        <Show 
+          student = {interview.student} 
+          interviewer = {interview.interviewer} 
+          key = {id} 
+          onCancel = {() => transition(CONFIRM)}
+          onEdit = {() => transition(EDIT)}
+          />}
       </article>
     </Fragment>
   )
