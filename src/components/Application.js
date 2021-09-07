@@ -1,66 +1,32 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-
+import React from "react";
 import "components/Application.scss";
 import DayList from "./DayListItems/DayList";
 import Appointment from "./Appointment";
 import { getAppointmentsForDay, getInterviewersForDay, getInterview } from "helpers/selectors";
+import useApplicationData from "hooks/useApplicationData";
 
 
 export default function Application(props) {
 
-  const [state, setState] = useState({
-    day: "Monday",
-    days: [],
-    appointments: {},
-    interviewers: {}
-  });
+  const {
+    state,
+    setDay,
+    bookInterview,
+    cancelInterview
+  } = useApplicationData();
 
-  useEffect(() => {
-    Promise.all([
-      axios.get('/api/days'),
-      axios.get('/api/appointments'),
-      axios.get('/api/interviewers')]
-    )
-    .then(
-      (result) => {
-        const [days, appointments, interviewers] = result;
-        setState(prevState => ({...prevState, days: days.data, appointments: appointments.data, interviewers: interviewers.data }))
-      }
-    )
-  }, [])
   const dailyAppointments = getAppointmentsForDay({appointments: state.appointments, days: state.days}, state.day)
   const dailyInterviewers = getInterviewersForDay ({interviewers: state.interviewers, days: state.days}, state.day)
-  
-  const setDay = (day) => {
-    setState(prevState => ({...prevState, day : day}));
-  }
-
-  function bookInterview(id, interview) {
-
-    const appointment = {
-      ...state.appointments[id],
-      interview: { ...interview }
-    };
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
-    };
-    setState(prevState => ({...prevState, appointments: appointments}));
-    return axios.put(`/api/appointments/${id}`, {interview})
-    .then((res) => {
-      return res;
-    })
-  }
-  
-  function cancelInterview(id) {
-
-    const updatedAppointment = {...state.appointments[id], interview: null}
-    const newAppointmentsList = {...state.appointments, [id]: updatedAppointment}
-    return axios.delete(`api/appointments/${id}`)
-    .then(() => 
-      setState({...state,  appointments : newAppointmentsList}))
-  }
+  const appointments = dailyAppointments.map(appointment => (
+               <Appointment 
+                key = {appointment.id} 
+                {...appointment}
+                interview = {getInterview(state, appointment.interview)} 
+                interviewers = {dailyInterviewers} 
+                bookInterview = {bookInterview}
+                cancelInterview = {cancelInterview}
+                />)
+  )
 
   return (
     <main className="layout">
@@ -85,18 +51,9 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
       
-
       </section>
       <section className="schedule">
-        {dailyAppointments.map(appointment => (<Appointment 
-        key = {appointment.id} 
-        {...appointment}
-        interview = {getInterview(state, appointment.interview)} 
-        interviewers = {dailyInterviewers} 
-        bookInterview = {bookInterview}
-        cancelInterview = {cancelInterview}
-        />)
-      )}
+        {appointments}
         <Appointment id="last" time="5pm" />
       </section>
     </main>
