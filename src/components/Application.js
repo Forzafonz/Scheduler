@@ -5,7 +5,6 @@ import "components/Application.scss";
 import DayList from "./DayListItems/DayList";
 import Appointment from "./Appointment";
 import { getAppointmentsForDay, getInterviewersForDay } from "helpers/selectors";
-import useVisualMode from "hooks/useVisualMode";
 
 
 export default function Application(props) {
@@ -39,6 +38,23 @@ export default function Application(props) {
     setState(prevState => ({...prevState, day : day}));
   }
 
+  function bookInterview(id, interview) {
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    setState(prevState => ({...prevState, appointments: appointments}));
+    return axios.put(`/api/appointments/${id}`, {interview})
+    .then((res) => {
+      
+    })
+  }
+
   return (
     <main className="layout">
       <section className="sidebar">
@@ -65,7 +81,11 @@ export default function Application(props) {
 
       </section>
       <section className="schedule">
-        {dailyAppointments.map(appointment => (<Appointment key = {appointment.id} {...appointment} interviewers = {dailyInterviewers}/>)
+        {dailyAppointments.map(appointment => (<Appointment 
+        key = {appointment.id} 
+        {...appointment} 
+        interviewers = {dailyInterviewers} 
+        bookInterview = {bookInterview}/>)
       )}
         <Appointment id="last" time="5pm" />
       </section>
