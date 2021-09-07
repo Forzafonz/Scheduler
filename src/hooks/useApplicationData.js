@@ -29,6 +29,8 @@ export default function useApplicationData(initial) {
   }, [])
 
   function bookInterview(id, interview) {
+    // console.log("Days before update:", state.days)
+    // const day = Math.floor(id / 5);
 
     const appointment = {
       ...state.appointments[id],
@@ -38,21 +40,59 @@ export default function useApplicationData(initial) {
       ...state.appointments,
       [id]: appointment
     };
-    setState(prevState => ({...prevState, appointments: appointments}));
+
+    const days = updateSpots(id, true)
+
     return axios.put(`/api/appointments/${id}`, {interview})
     .then((res) => {
-      return res;
+      setState(prevState => ({...prevState, appointments: appointments, days}));
     })
   }
   
   function cancelInterview(id) {
+  
+    const updatedAppointment = {
 
-    const updatedAppointment = {...state.appointments[id], interview: null}
-    const newAppointmentsList = {...state.appointments, [id]: updatedAppointment}
+      ...state.appointments[id], 
+         interview: null}
+
+    const newAppointmentsList = {
+
+      ...state.appointments, 
+      [id]: updatedAppointment}
+
+
+    const days = updateSpots(id)
     return axios.delete(`api/appointments/${id}`)
     .then(() => 
-      setState({...state,  appointments : newAppointmentsList}))
+      setState({...state,  appointments : newAppointmentsList , days}))
   }
+
+  /** Function to increase/decrease number of spots based on Appointment id
+   * 
+   * @param {*} id - id of aoppointment
+   * @param {*} increase - indicates if number of spots should increase. Default to 'false'
+   * @returns {array} - return array of days with updated spots
+   */
+  function updateSpots(id, increase = false) {
+
+    const day = Math.floor(id / 5);
+    let spots = state.days[day].spots + 1;
+    
+    if (increase) {
+      spots -= 2;
+    }
+    
+    const dayUpdate = {
+      ...state.days[day], 
+      spots }
+
+    const days = state.days.map((selectedDay, index) => index === day ? dayUpdate : selectedDay)
+
+    return days;
+
+  }
+
  
   return {state, bookInterview, cancelInterview, setState, setDay}
 }
