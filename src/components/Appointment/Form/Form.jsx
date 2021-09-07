@@ -12,9 +12,9 @@ import InterviewerList from 'components/Interviewers/InterviewerList';
 import '../styles.scss'
 
 export default function Form(props) {
-
-  const {name, interviewer, interviewers, onSave, onCancel} = props;
-  const [studentName, setName] = useState(name || "");
+  
+  const {student, interviewer, interviewers, onSave, onCancel} = props;
+  const [studentName, setName] = useState(student || "");
   const [interviewerName, setInterviewer] = useState(interviewer || null);
 
   const reset = () => {
