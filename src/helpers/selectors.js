@@ -1,11 +1,11 @@
 /**
  * @param {object} state "state" object from which only "days" object is required: [{id: 1,name: "Monday",appointments: [1, 2, 3]}, {  id: 2,  name: "Tuesday",  appointments: [4, 5]}]
  * @param {string} day day as a string: "Tuesday"
- * @return {Array<String>} array [{id:1, time: '12pm', interview: null}, {id:2, time: '1pm', interview: null}]  
+ * @return {Array<String>} array [{id:1, time: '12pm', interview: null}, {id:2, time: '1pm', interview: { student: "Archie Cohen", interviewer: 2 }}]  
  */
 
 export function getAppointmentsForDay(state, day) {
-  const {days, appointments } = state;
+  const {days, appointments} = state;
   if (!days.length) return [];
   const selectedDayAppointments = days.filter(sday => sday.name === day)
   if (!selectedDayAppointments.length) return [];
