@@ -40,6 +40,14 @@ export default function Form(props) {
         className="appointment__create-input text--semi-bold"
         name="name"
         type="text"
+        value = {(()=>{
+          if (studentName) {
+            return studentName
+          } else {
+            return ''
+          }
+        })()
+      }
         placeholder = {(()=>{
           if (studentName) {
             return studentName
