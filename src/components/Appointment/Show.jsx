@@ -1,12 +1,12 @@
 // student:String eg. "Lydia Miller-Jones"
 // interviewer:Object we can use the interview object that already exists in stories/index.js for this
 // onEdit:Function to be called when the user clicks the Edit button
-// onDelete:Function to be called when the user clicks the Delete button
+// onCancel:Function to be called when the user clicks the Delete button
 
 import React from 'react';
 
 export default function Show (props) {
-  const {student, interviewer, onEdit, onDelete} = props;
+  const {student, interviewer, onEdit, onCancel} = props;
   return (
 
     <main className="appointment__card appointment__card--show">
@@ -29,7 +29,7 @@ export default function Show (props) {
         className="appointment__actions-button"
         src="images/trash.png"
         alt="Delete"
-        onClick = {onDelete}
+        onClick = {onCancel}
       />
     </section>
   </section>
