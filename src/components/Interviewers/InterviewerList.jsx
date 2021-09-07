@@ -9,14 +9,13 @@ import './InterviewerList.scss';
 
 export default function InterviewerList(props) {
 
- 
+ console.log("LIST PROPS:", props)
   const {interviewers, value, onChange} = props
-  console.log(interviewers)
-  const interviewersList = interviewers.map(interv => <InterviewerListItem 
-    key = {interv.id} 
-    {...interv} 
-    selected = {value === interv.id}
-    onChange = {() => onChange(interv.id)}/>)
+  const interviewersList = interviewers.map(interviewer => <InterviewerListItem 
+    key = {interviewer.id} 
+    {...interviewer} 
+    selected = {value === interviewer.id}
+    onChange = {() => onChange(interviewer.id)}/>)
 
   return (
     <section className="interviewers">
