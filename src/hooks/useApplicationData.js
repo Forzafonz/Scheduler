@@ -29,9 +29,8 @@ export default function useApplicationData(initial) {
   }, [])
 
   function bookInterview(id, interview) {
-    // console.log("Days before update:", state.days)
-    // const day = Math.floor(id / 5);
-
+ 
+    const setUpdateSlots = state.appointments[id].interview;
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -41,14 +40,17 @@ export default function useApplicationData(initial) {
       [id]: appointment
     };
 
-    const days = updateSpots(id, true)
-
     return axios.put(`/api/appointments/${id}`, {interview})
     .then((res) => {
-      setState(prevState => ({...prevState, appointments: appointments, days}));
+      if (!setUpdateSlots) {
+        const days = updateSpots(id, true)
+        setState(prevState => ({...prevState, appointments: appointments, days}))
+      } else {
+        setState(prevState => ({...prevState,  appointments: appointments}))
+      }
     })
   }
-  
+
   function cancelInterview(id) {
   
     const updatedAppointment = {
@@ -82,7 +84,7 @@ export default function useApplicationData(initial) {
     if (increase) {
       spots -= 2;
     }
-    
+
     const dayUpdate = {
       ...state.days[day], 
       spots }
