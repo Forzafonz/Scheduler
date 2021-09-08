@@ -27,7 +27,8 @@ const CONFIRM = "CONFIRM";
 const DELETE = "DELETE";
 const EDIT = "EDIT";
 const ERROR_SAVE = "ERROR_SAVE";
-const ERROR_DELETE = "ERROR_DELETE"
+const ERROR_DELETE = "ERROR_DELETE";
+const ERROR_NO_DATA = "ERROR_NO_DATA"
 
 
 
@@ -49,6 +50,11 @@ export default function Appointment(props) {
 
 
   function save(name, interviewer) {
+    console.log(interviewer)
+    if (!interviewer){
+      transition(ERROR_NO_DATA)
+      return;
+    }
     const interview = {
       student: name,
       interviewer
@@ -86,6 +92,7 @@ export default function Appointment(props) {
       {mode === CREATE && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
       {mode === ERROR_SAVE && <Error message = {"CANNOT SAVE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
       {mode === ERROR_DELETE && <Error message = {"CANNOT DELETE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
+      {mode === ERROR_NO_DATA && <Error message = {"CANNOT SAVE YOUR APPOINTMENT. PLESE SELECT INTERVIEWER"} onClose = {() => back()}/>}
       {mode === SHOW && interview &&
         <Show 
           student = {interview.student} 
