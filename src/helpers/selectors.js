@@ -41,3 +41,25 @@ export function getInterviewersForDay(state, day) {
   if (!selectedinterviewers.length) return [];
   return selectedinterviewers[0].interviewers.map(id => interviewers[id]);
 }
+
+/**A function to update spots for each day after appointment removed/modified
+ * 
+ * @param {Array<Object>} days - array of day objects: [{ id: 1, name: "Monday", appointments: [1,2,3,4,5],interviewers: [2,3,5,6,8],spots: 4}, ...]
+ * @param {Object<Object>} appointments - object of objects:  {1: {id: 1,time: "12pm",interview: {student: "ASDASDSA",interviewer: 8}},2: {id: 2,time: "1pm",interview: null}, .. }
+ * @returns array of days with updated spots
+ */
+
+export function updateSpots(days, appointments) {
+
+  const reducer = (accumulator, currentValue) => {
+    return !appointments[currentValue].interview ? accumulator + 1 : accumulator;
+  }
+
+  const newDays = days.map(day => {
+    const updateDate = {...day}
+    const spots = updateDate.appointments.reduce(reducer, 0)
+    return {...updateDate, spots}
+  })
+
+  return newDays;
+}
