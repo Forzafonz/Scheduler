@@ -53,10 +53,29 @@ export default function useApplicationData(initial) {
   })
 
   const setDay = (day) => {
+    
     dispatch({ type : SET_DAY, value : {day : day}})
+    
   }
 
   useEffect(() => {
+
+    const newSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL, "JSON")
+
+    newSocket.onmessage = function (event) {
+      const data = JSON.parse(event.data)
+      if(data.type === SET_INTERVIEW) {
+
+        const {id, interview} = data;
+        dispatch({ type : SET_INTERVIEW, value : {id, interview}})
+
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+   
+
     Promise.all([
       axios.get('/api/days'),
       axios.get('/api/appointments'),
