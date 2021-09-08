@@ -8,7 +8,7 @@
 // Function: bookInterview(id, interview) 
 // Function: cancelInterview(id)
 
-import React, {Fragment} from 'react';
+import React, {Fragment, useEffect} from 'react';
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
@@ -37,6 +37,17 @@ export default function Appointment(props) {
   const { mode, transition, back,  } = useVisualMode(interview ? SHOW : EMPTY)
 
 
+  useEffect(() => {
+
+    if (mode === EMPTY && interview){
+      transition(SHOW)
+    } else if (mode === SHOW && !interview) {
+      transition(EMPTY)
+    }
+
+  }, [interview, mode, transition])
+
+
   function save(name, interviewer) {
     const interview = {
       student: name,
@@ -50,11 +61,6 @@ export default function Appointment(props) {
       transition(ERROR_SAVE, true)
     })
   }
-
-  /**
-   * Function to cancel interview
-   * @param {*} id - appointment id
-   */
 
   function cancel() {
     
@@ -80,7 +86,7 @@ export default function Appointment(props) {
       {mode === CREATE && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
       {mode === ERROR_SAVE && <Error message = {"CANNOT SAVE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
       {mode === ERROR_DELETE && <Error message = {"CANNOT DELETE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
-      {mode === SHOW && 
+      {mode === SHOW && interview &&
         <Show 
           student = {interview.student} 
           interviewer = {interview.interviewer} 
