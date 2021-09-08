@@ -50,7 +50,7 @@ export default function Appointment(props) {
 
 
   function save(name, interviewer) {
-    console.log(interviewer)
+    
     if (!interviewer){
       transition(ERROR_NO_DATA)
       return;
@@ -82,7 +82,7 @@ export default function Appointment(props) {
 
   return (
     <Fragment>
-      <article className="appointment">
+      <article className="appointment" data-testid="appointment">
       <Header time = {time} />
       {mode === CONFIRM && <Confirm onConfirm = {() => cancel()} onCancel = {() => back()} message = {"Please confirm that you want to delete your appointment"}/>}
       {mode === EMPTY && <Empty message = {"No Booked Appointments"} key = {id} onAdd = {() => transition(CREATE)}/>}
