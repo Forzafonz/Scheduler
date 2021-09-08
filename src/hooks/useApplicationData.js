@@ -65,12 +65,13 @@ export default function useApplicationData(initial) {
     newSocket.onmessage = function (event) {
       const data = JSON.parse(event.data)
       if(data.type === SET_INTERVIEW) {
-
         const {id, interview} = data;
         dispatch({ type : SET_INTERVIEW, value : {id, interview}})
-
       }
     }
+
+    return () => newSocket.close();
+
   }, [])
 
   useEffect(() => {
