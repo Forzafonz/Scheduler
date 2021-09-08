@@ -41,7 +41,7 @@ export default function Form(props) {
     }
     
     setError("")
-    onSave(studentName, interviewerName.id)
+    onSave(studentName, interviewerName ? interviewerName.id : null)
   }
   
 
