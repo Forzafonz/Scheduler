@@ -1,4 +1,4 @@
-import { getAppointmentsForDay, getInterview, getInterviewersForDay } from "helpers/selectors";
+import { getAppointmentsForDay, getInterview, getInterviewersForDay, updateSpots} from "helpers/selectors";
 
 const state = {
   days: [
@@ -7,13 +7,14 @@ const state = {
       name: "Monday",
       appointments: [1, 2, 3],
       interviewers: [1, 2],
-
+      spots: 99
     },
     {
       id: 2,
       name: "Tuesday",
       appointments: [4, 5],
       interviewers: [1, 2],
+      spots: 3
     }
   ],
   appointments: {
@@ -119,3 +120,26 @@ test("getInterview returns null if no interview is booked", () => {
   expect(result).toBeNull();
 });
 
+describe("Update Spots Tests", () => {
+  const oldState = require('./data.json');
+  const state = JSON.parse(JSON.stringify(oldState));
+  const id = 1;
+  const interview = { student: "Test Student", interviewer: 99 };
+  const appointment = { ...state.appointments[id], interview: { ...interview } };
+  const appointments = { ...state.appointments, [id]: appointment };
+  const days = updateSpots(state.days, appointments);
+  const result = getInterview(state, state.appointments["2"].interview);
+  expect(result).toBeNull();
+
+  it("should update spots to 1 ", () => {
+    expect(days[0]).toBeDefined();
+    expect(days[0].spots).toEqual(1);
+  });
+
+  it('should update spots and not change original days array', function () {
+    expect(days[0]).toBeDefined();
+    expect(days[0].spots).toEqual(1);
+    expect(state.days).toEqual(oldState.days);
+  });
+
+});
