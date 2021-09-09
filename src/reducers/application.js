@@ -35,10 +35,10 @@ const reducer = function (state, action) {
     [SET_APPLICATION_DATA]: setApplicationData,
     [SET_INTERVIEW]: setInterview,
     "default": () => {
-      throw new Error() `Tried to reduce with unsupported action type: ${action.type}`}
+      throw new Error(`Tried to reduce with unsupported action type: ${action.type}`)}
   }
 
-  return actions[action.type](state, action) || actions("default")
+  return actions[action.type] ? actions[action.type](state, action) : actions["default"]()
 
 }
 
