@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Push Master to Production
           command: |
-            git push https://github.com/ycandau/scheduler.git main:production
+            git push https://github.com/Forzafonz/Scheduler.git main:production
 workflows:
   version: 2
   test_and_deploy:
