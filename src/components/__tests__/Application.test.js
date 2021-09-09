@@ -28,10 +28,13 @@ describe("Appointment", () => {
     fireEvent.click(getByAltText(appointment, "Add"));
     // 4. Enter the name "Lydia Miller-Jones" into the input with the placeholder "Enter Student Name".
     fireEvent.change(getByTestId(appointment, "student-name-input"), { target : {value : "Lydia Miller-Jones"} });
+    // 4.1 Try to save appointment without selecting interviewer
     fireEvent.click(getByText(appointment, "Save"))
+    // 4.2 Check an error message when trying to save w/o specifying interviewer
     await waitForElement(() => queryByText(appointment, "CANNOT SAVE YOUR APPOINTMENT. PLESE SELECT INTERVIEWER"));
     expect(getByText(appointment, "CANNOT SAVE YOUR APPOINTMENT. PLESE SELECT INTERVIEWER")).toBeInTheDocument();
     fireEvent.click(getByAltText(appointment, "Close"));
+    // 4.3 Re-enter the appointment
     fireEvent.change(getByTestId(appointment, "student-name-input"), { target : {value : "Lydia Miller-Jones"} });
     //5. Click the first interviewer in the list.
     fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
