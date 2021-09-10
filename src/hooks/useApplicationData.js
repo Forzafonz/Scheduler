@@ -15,7 +15,7 @@ export default function useApplicationData(initial) {
     dispatch({ type : SET_DAY, value : {day : day}})
     
   }
-
+  // "listen" to any messages from WebSocket and if received dispath a method to update state via reducer
   useEffect(() => {
 
     const newSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL, "JSON")
@@ -31,9 +31,8 @@ export default function useApplicationData(initial) {
     return () => newSocket.close();
 
   }, [])
-
+  // Called on initial launch to retrieve information from the database
   useEffect(() => {
-   
 
     Promise.all([
       axios.get('/api/days'),
@@ -47,7 +46,7 @@ export default function useApplicationData(initial) {
       }
     )
   }, [])
-
+  // Function called when creating/updating interview
   function bookInterview(id, interview) {
  
     return axios.put(`/api/appointments/${id}`, {interview})
@@ -55,7 +54,7 @@ export default function useApplicationData(initial) {
         dispatch({ type : SET_INTERVIEW, value : {id, interview}})
     })
   }
-
+  //Function called when removing interview
   function cancelInterview(id) {
   
     return axios.delete(`api/appointments/${id}`)

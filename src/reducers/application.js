@@ -4,17 +4,19 @@ const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 
-const reducer = function (state, action) {
+// A reducer function
 
+const reducer = function (state, action) {
+  //Function to update a day selected on scheduler
   const setDay = (state, action) =>{
     return {...state, day: action.value.day}
   }
-
+  //Function called on axious request to database to populate data for days, appointments, interviewers
   const setApplicationData = (state,action) => {
     const {days, appointments, interviewers} = action.value
     return {...state, days, appointments, interviewers }
   }
-
+  // Function called when adding/removing/updating interview
   const setInterview = (state, action) => {
     const {interview, id} = action.value
     const appointment = {
