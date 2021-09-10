@@ -1,3 +1,4 @@
+// PROPS:
 // {...appointment} interviewers = {dailyInterviewers}
 // {...appointment} PROP includes:
 // {id:1, time: '12pm', interview: (null or Object Like { student: "Archie Cohen", interviewer: 2 })}
@@ -19,6 +20,7 @@ import Error from './Error';
 import './styles.scss';
 import useVisualMode from 'hooks/useVisualMode';
 
+// Mode constants
 const EMPTY = "EMPTY";
 const SHOW = "SHOW";
 const CREATE = "CREATE";
@@ -37,7 +39,7 @@ export default function Appointment(props) {
   const {id, time, interview, interviewers, bookInterview, cancelInterview } = props;
   const { mode, transition, back,  } = useVisualMode(interview ? SHOW : EMPTY)
 
-
+  // Update mode after receiving websocket update
   useEffect(() => {
 
     if (mode === EMPTY && interview){
@@ -84,23 +86,38 @@ export default function Appointment(props) {
     <Fragment>
       <article className="appointment" data-testid="appointment">
       <Header time = {time} />
-      {mode === CONFIRM && <Confirm onConfirm = {() => cancel()} onCancel = {() => back()} message = {"Please confirm that you want to delete your appointment"}/>}
-      {mode === EMPTY && <Empty message = {"No Booked Appointments"} key = {id} onAdd = {() => transition(CREATE)}/>}
-      {mode === EDIT && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
-      {mode === DELETE && <Status message = {"Deleting"}/>}
-      {mode === SAVING && <Status message = {"Saving"}/>}
-      {mode === CREATE && <Form {...interview} interviewers = {interviewers} onCancel = {() => back()} onSave = {save}/>}
-      {mode === ERROR_SAVE && <Error message = {"CANNOT SAVE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
-      {mode === ERROR_DELETE && <Error message = {"CANNOT DELETE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
-      {mode === ERROR_NO_DATA && <Error message = {"CANNOT SAVE YOUR APPOINTMENT. PLESE SELECT INTERVIEWER"} onClose = {() => back()}/>}
-      {mode === SHOW && interview &&
-        <Show 
+      {mode === DELETE &&             <Status message = {"Deleting"}/>}
+      {mode === SAVING &&             <Status message = {"Saving"}/>}
+      {mode === ERROR_SAVE &&         <Error  message = {"CANNOT SAVE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"}   onClose = {() => back()}/>}
+      {mode === ERROR_DELETE &&       <Error  message = {"CANNOT DELETE YOUR APPOINTMENT. PLEASE TRY AGAIN LATER"} onClose = {() => back()}/>}
+      {mode === ERROR_NO_DATA &&      <Error  message = {"CANNOT SAVE YOUR APPOINTMENT. PLESE SELECT INTERVIEWER"} onClose = {() => back()}/>}
+      {mode === EMPTY &&              <Empty  message = {"No Booked Appointments"} key = {id} onAdd = {() => transition(CREATE)}/>}
+      {mode === EDIT &&               <Form 
+          {...interview} 
+          interviewers = 
+          {interviewers} 
+          onCancel = {() => back()} 
+          onSave = {save}/>
+          }
+      {mode === CREATE &&             <Form 
+          {...interview} 
+          interviewers = {interviewers} 
+          onCancel = {() => back()} 
+          onSave = {save}/>
+          }
+      {mode === CONFIRM &&            <Confirm 
+          onConfirm = {() => cancel()} 
+          onCancel = {() => back()} 
+          message = {"Please confirm that you want to delete your appointment"}/>
+          }
+      {mode === SHOW && interview &&  <Show 
           student = {interview.student} 
           interviewer = {interview.interviewer} 
           key = {id} 
           onCancel = {() => transition(CONFIRM)}
           onEdit = {() => transition(EDIT)}
-          />}
+          />
+          }
       </article>
     </Fragment>
   )
