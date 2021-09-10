@@ -8,21 +8,22 @@ The application uses a wide range of testing technics:
 
 1. Static testing;
 2. Unit  and Integration testing (StoryBook, Jest);
-3. E2E testing (Cypress)
+3. E2E testing (Cypress).
 
 The overall test coverage for the application is 95%:
 ![coverage](/public/images/coverage.png)
 
 The app has been deployed on `Netlify` and can be accessed via the link:<br>
 https://goofy-noether-013749.netlify.app/
-<br> `Please allow approximately 15 seconds for application to start up. It runs on AWS servers, so if application has been inactive for 30 minutes, it will be terminated and needs some time to restart`.
+<br> `Please allow approximately 15 seconds for application to start up. It runs on AWS servers, so if application has been inactive for 30 minutes, it will be terminated so it needs some time to restart`.
 
 # Key Features:
 
-*  Single Page App
-*  Built using function-based React
-*  Reducer was used to controll application state
-*  **WebSocket** was used to allow for synchoniously updating data in     multiple active clients
+*  Single Page App;
+*  Built using functional React;
+*  Reducer was used to controll application state;
+*  **WebSocket** was used to allow for synchoniously updating data in     multiple active clients;
+*  95% of application is covered by unit and integration tests.
 
 # Dependencies:
 
@@ -30,10 +31,10 @@ https://goofy-noether-013749.netlify.app/
 * `React`
 * `Axios`
 * `Express`
-* `CSS`
-* `SASS`
 * `Jest`
 * `Cypress`
+* `PostgreSQL`
+* `SASS`
 * `classnames`
 
 # Functionality Demonstration:
