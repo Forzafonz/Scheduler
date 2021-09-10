@@ -14,7 +14,7 @@ export default function Application(props) {
     bookInterview,
     cancelInterview
   } = useApplicationData();
-
+  // Retrive daily Appointments and Interviewes using selectors
   const dailyAppointments = getAppointmentsForDay({appointments: state.appointments, days: state.days}, state.day)
   const dailyInterviewers = getInterviewersForDay ({interviewers: state.interviewers, days: state.days}, state.day)
   const appointments = dailyAppointments.map(appointment => (
